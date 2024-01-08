@@ -16,7 +16,7 @@ const connect= async()=>{
         await mongoose.connect(process.env.MONGODB);
         console.log("Connected to MongoDB!");
     } catch (error) {
-        throw error
+        throw error;
     }
 }
 mongoose.connection.on("disconnected",()=>{
