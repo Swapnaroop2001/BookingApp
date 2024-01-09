@@ -37,10 +37,10 @@ router.get('/:id', async (req, res) => {
 //getAll
 router.get('/', async (req, res, next) => {
     try {
-        const hotels = await Hotel.findById('ejfhbshebf');
+        const hotels = await Hotel.find();
         res.status(200).json(hotels)
     } catch (error) {
-       next(error)
+        next(error)
     }
 })
 
