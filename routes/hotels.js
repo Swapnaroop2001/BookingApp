@@ -1,10 +1,12 @@
 import express from 'express';
 import Hotel from '../models/Hotel.js';
+import { verifyAdmin } from '../utils/verifyTokens.js';
+
 
 const router = express.Router();
 
 //CreateNew
-router.post('/', async (req, res) => {
+router.post('/',verifyAdmin,async (req, res) => {
     const newHotel = new Hotel(req.body)
     try {
         const savedHotel = await newHotel.save()
@@ -15,7 +17,7 @@ router.post('/', async (req, res) => {
 })
 
 //Edit
-router.put('/:id', async (req, res) => {
+router.put('/:id',verifyAdmin, async (req, res) => {
     try {
         const updatedHotel = await Hotel.findByIdAndUpdate(req.params.id, { $set: req.body }, { new: true })
         res.status(200).json(updatedHotel)
@@ -45,7 +47,7 @@ router.get('/', async (req, res, next) => {
 })
 
 //Delete
-router.delete('/:id', async (req, res) => {
+router.delete('/:id',verifyAdmin, async (req, res) => {
     try {
         await Hotel.findByIdAndDelete(req.params.id)
         res.status(200).json("Hotel deleted")

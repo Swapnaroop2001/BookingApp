@@ -1,6 +1,7 @@
 import express from 'express';
 import dotenv from 'dotenv';
 import mongoose from 'mongoose';
+import cookieParser from 'cookie-parser';
 import authRoute from "/Users/rupalisalgare/Desktop/ReactApp/Booking-app/api/routes/auth.js"
 import hotelsRoute from "/Users/rupalisalgare/Desktop/ReactApp/Booking-app/api/routes/hotels.js"
 import roomsRoute from "/Users/rupalisalgare/Desktop/ReactApp/Booking-app/api/routes/rooms.js"
@@ -27,6 +28,7 @@ mongoose.connection.on("connected",()=>{
     console.log("MongoDB connected!");
 })
 
+app.use(cookieParser())
 app.use(express.json())
 app.use('/api/auth', authRoute)
 app.use('/api/hotels', hotelsRoute)
@@ -36,7 +38,7 @@ app.use('/api/users', usersRoute)
 app.use((err,req,res,next)=>{
     console.log("Hello im middleware!");
     const errStatus=err.status|| 500;
-    const errMessage=err.status|| "Something went wrong!"
+    const errMessage=err.message|| "Something went wrong!"
     return res.status(errStatus).json({
         success:false,
         status:errStatus,
