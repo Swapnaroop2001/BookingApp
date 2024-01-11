@@ -1,3 +1,54 @@
 .header{
     background-color: rgb(2, 224, 135);
 }
+.span{
+    font-weight: 600; 
+}
+.container{
+    width: 110%;
+    max-width: 1024px;
+}
+.Headeritems{
+   border-color: aliceblue;
+}
+.headerlist{
+    display: flex;
+    justify-content: start;
+    gap: 40px;
+}
+.items{
+    padding: 7px;
+    border: solid;
+    border-radius: 25px;
+}
+.para{
+    margin: 40px 60px 20px 0px;
+}
+.welcome{
+    font-weight:bolder;
+    font-size: 550%;
+}
+.Un{
+    margin: 6px 0px 0px 10px;
+    font-weight: 700;
+    font-size: 100%;
+}
+.headerSearch{
+    border: solid;
+    border-radius: 25px;
+    padding: 10px 10px 10px 10px;
+    display: flex;
+    justify-content:safe;
+    background-color: rgb(255, 255, 255);
+}
+.headerSearchInput{
+    margin:0px 5px 0px 5px;
+    width: 90%;
+}
+.headerSearchInput1{
+    margin:0px 5px 0px 5px;
+    width: 85%;
+}
+.headerIcon{
+    size: 50%;
+}
