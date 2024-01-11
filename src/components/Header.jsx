@@ -60,7 +60,7 @@ export default function Header() {
               <div/>
               </div>
               <div className="headerSearchItem col-md-1">
-              <button>search</button>
+              <button type="button" class="btn btn-dark btn-sm">Search</button>
               </div>
               
             </div>
