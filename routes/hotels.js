@@ -6,7 +6,7 @@ import { verifyAdmin } from '../utils/verifyTokens.js';
 const router = express.Router();
 
 //CreateNew
-router.post('/',verifyAdmin,async (req, res) => {
+router.post('/',async (req, res) => {
     const newHotel = new Hotel(req.body)
     try {
         const savedHotel = await newHotel.save()
@@ -17,7 +17,7 @@ router.post('/',verifyAdmin,async (req, res) => {
 })
 
 //Edit
-router.put('/:id',verifyAdmin, async (req, res) => {
+router.put('/:id',async (req, res) => {
     try {
         const updatedHotel = await Hotel.findByIdAndUpdate(req.params.id, { $set: req.body }, { new: true })
         res.status(200).json(updatedHotel)
@@ -27,7 +27,28 @@ router.put('/:id',verifyAdmin, async (req, res) => {
 })
 
 //getById
-router.get('/:id', async (req, res) => {
+router.get('/find/:id', async (req, res) => {
+    try {
+        const getHotel = await Hotel.findById(req.params.id)
+        res.status(200).json(getHotel)
+    } catch (error) {
+        res.status(500).json(error)
+    }
+})
+//getcitycount
+router.get('/countbycity', async (req, res) => {
+    const cities=req.query.cities.split(',')
+    try {
+        const list=await Promise.all(cities.map(city=>{
+            return Hotel.countDocuments({city:city})
+        }))
+        res.status(200).json(list)
+    } catch (error) {
+        res.status(500).json(error)
+    }
+})
+//getcounttype
+router.get('/countByType', async (req, res) => {
     try {
         const getHotel = await Hotel.findById(req.params.id)
         res.status(200).json(getHotel)
@@ -39,15 +60,15 @@ router.get('/:id', async (req, res) => {
 //getAll
 router.get('/', async (req, res, next) => {
     try {
-        const hotels = await Hotel.find();
-        res.status(200).json(hotels)
+        const Allhotel = await Hotel.find();
+        res.status(200).json(Allhotel)
     } catch (error) {
         next(error)
     }
 })
 
 //Delete
-router.delete('/:id',verifyAdmin, async (req, res) => {
+router.delete('/:id', async (req, res) => {
     try {
         await Hotel.findByIdAndDelete(req.params.id)
         res.status(200).json("Hotel deleted")

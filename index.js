@@ -1,11 +1,12 @@
 import express from 'express';
 import dotenv from 'dotenv';
 import mongoose from 'mongoose';
+
 import cookieParser from 'cookie-parser';
-import authRoute from "/Users/rupalisalgare/Desktop/ReactApp/Booking-app/api/routes/auth.js"
-import hotelsRoute from "/Users/rupalisalgare/Desktop/ReactApp/Booking-app/api/routes/hotels.js"
-import roomsRoute from "/Users/rupalisalgare/Desktop/ReactApp/Booking-app/api/routes/rooms.js"
-import usersRoute from "/Users/rupalisalgare/Desktop/ReactApp/Booking-app/api/routes/users.js"
+import authRoute from "/Users/rupalisalgare/Desktop/Code/ReactApp/Booking-app/api/routes/auth.js"
+import hotelsRoute from "/Users/rupalisalgare/Desktop/Code/ReactApp/Booking-app/api/routes/hotels.js"
+import roomsRoute from "/Users/rupalisalgare/Desktop/Code/ReactApp/Booking-app/api/routes/rooms.js"
+import usersRoute from "/Users/rupalisalgare/Desktop/Code/ReactApp/Booking-app/api/routes/users.js"
 
 const app = express();
 dotenv.config()
@@ -31,7 +32,7 @@ mongoose.connection.on("connected",()=>{
 app.use(cookieParser())
 app.use(express.json())
 app.use('/api/auth', authRoute)
-app.use('/api/hotels', hotelsRoute)
+app.use('/api/hotel', hotelsRoute)
 app.use('/api/rooms', roomsRoute)
 app.use('/api/users', usersRoute)
 

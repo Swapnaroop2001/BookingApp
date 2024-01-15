@@ -42,16 +42,17 @@ router.get('/',verifyAdmin, async (req, res, next) => {
     }
 })
 
-//Delete
-router.delete('/:id',verifyUser, async (req, res) => {
+router.delete('/:id', async (req, res) => {
     try {
-        await User.findByIdAndDelete(req.params.id)
-        res.status(200).json("User deleted")
+        await wanda.findByIdAndDelete(req.params.id);
+        res.status(200).json("User deleted");
     } catch (error) {
-        res.status(500).json(error)
+        // Handle errors here
+        console.error(error);
+        res.status(500).json({ error: "Internal Server Error" });
     }
-})
-
+});
+ 
 
 
 
