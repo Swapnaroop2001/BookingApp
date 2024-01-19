@@ -1,12 +1,13 @@
 import express from 'express';
 import Hotel from '../models/Hotel.js';
 import { verifyAdmin } from '../utils/verifyTokens.js';
+import Room from "../models/Room.js";
 
 
 const router = express.Router();
 
 //CreateNew
-router.post('/',async (req, res) => {
+router.post('/', async (req, res) => {
     const newHotel = new Hotel(req.body)
     try {
         const savedHotel = await newHotel.save()
@@ -17,7 +18,7 @@ router.post('/',async (req, res) => {
 })
 
 //Edit
-router.put('/:id',async (req, res) => {
+router.put('/:id', async (req, res) => {
     try {
         const updatedHotel = await Hotel.findByIdAndUpdate(req.params.id, { $set: req.body }, { new: true })
         res.status(200).json(updatedHotel)
@@ -36,22 +37,36 @@ router.get('/find/:id', async (req, res) => {
     }
 })
 //getcitycount
-router.get('/countbycity', async (req, res) => {
-    const cities=req.query.cities.split(',')
-    try {
-        const list=await Promise.all(cities.map(city=>{
-            return Hotel.countDocuments({city:city})
-        }))
-        res.status(200).json(list)
-    } catch (error) {
-        res.status(500).json(error)
+router.get('/countByCity', async (req, res, next) => {
+    const cities = req.query.cities?.split(",");
+    if (cities) {
+        try {
+            const list = await Promise.all(
+                cities?.map((city) => {
+                    return Hotel.countDocuments({ city: city });
+                })
+            );
+            return res.status(200).json(list);
+        } catch (err) {
+            next(err);
+        }
     }
 })
 //getcounttype
 router.get('/countByType', async (req, res) => {
     try {
-        const getHotel = await Hotel.findById(req.params.id)
-        res.status(200).json(getHotel)
+        const hotelcount = await Hotel.countDocuments({ type: "hotel" })
+        const apartmentcount = await Hotel.countDocuments({ type: "apartment" })
+        const resortcount = await Hotel.countDocuments({ type: "resort" })
+        const villacount = await Hotel.countDocuments({ type: "villa" })
+        const cabincount = await Hotel.countDocuments({ type: "cabin" })
+        res.status(200).json([
+            { type: "hotel", count: hotelcount },
+            { type: "apartment", count: apartmentcount },
+            { type: "resort", count: resortcount },
+            { type: "villa", count: villacount },
+            { type: "cabin", count: cabincount },
+        ]);
     } catch (error) {
         res.status(500).json(error)
     }
@@ -59,11 +74,15 @@ router.get('/countByType', async (req, res) => {
 
 //getAll
 router.get('/', async (req, res, next) => {
+    const { min, max, ...others } = req.query;
     try {
-        const Allhotel = await Hotel.find();
-        res.status(200).json(Allhotel)
-    } catch (error) {
-        next(error)
+        const hotels = await Hotel.find({
+            ...others,
+            cheapestPrice: { $gt: min | 1, $lt: max || 999 },
+        }).limit(req.query.limit);
+        res.status(200).json(hotels);
+    } catch (err) {
+        next(err);
     }
 })
 
@@ -74,6 +93,21 @@ router.delete('/:id', async (req, res) => {
         res.status(200).json("Hotel deleted")
     } catch (error) {
         res.status(500).json(error)
+    }
+})
+
+//get room
+router.get('/room/:id', async (req, res, next) => {
+    try {
+        const hotel = await Hotel.findById(req.params.id);
+        const list = await Promise.all(
+            hotel.rooms.map((room) => {
+                return Room.findById(room);
+            })
+        );
+        res.status(200).json(list)
+    } catch (err) {
+        next(err);
     }
 })
 
