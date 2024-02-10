@@ -33,6 +33,9 @@ Effortlessly find the perfect accommodation using CozyCrest's comprehensive sear
    - Select your desired hotel and proceed to the booking section.
    - Complete the booking process with ease.
 
+## Website Image
+  ![image](https://github.com/Swapnaroop2001/Portfolio-Website/blob/main/src/images/CozyCrest.png)
+  
 ## Technologies Used
 
 CozyCrest is built on the robust MERN stack, leveraging the following technologies:
@@ -42,10 +45,6 @@ CozyCrest is built on the robust MERN stack, leveraging the following technologi
 - React: Frontend library for creating an interactive user interface.
 - Node.js: Runtime environment for executing server-side JavaScript.
 
-## Website Image
-  ![image](https://github.com/Swapnaroop2001/Portfolio-Website/blob/main/src/images/CozyCrest.png)
-## Getting Started
 
-1. **Clone the Repository:**
-   ```bash
-   git clone https://github.com/your-username/cozycrest.git
+
+
